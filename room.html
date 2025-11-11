@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiderman room - Airbnb </title>
+        <link rel="icon" type="image/png" href="href="https://a0.muscache.com/airbnb/static/icons/apple-touch-icon-76x76-3b313d93b1b5823293524b9764352ac9.png"">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Circular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #fff;
+            color: #222;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #ebebeb;
+            padding: 20px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF385C;
+            cursor: pointer;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-share {
+            background: white;
+            border: 1px solid #ddd;
+        }
+
+        .btn-share:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+
+        .btn-save {
+            background: white;
+            border: 1px solid #ddd;
+        }
+
+        .btn-save:hover {
+            background: #f7f7f7;
+        }
+
+        /* Image Gallery */
+        .gallery-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px 80px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 8px;
+            height: 560px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-main {
+            grid-row: 1 / 3;
+        }
+
+        .show-all-photos {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid #222;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .show-all-photos:hover {
+            background: #f7f7f7;
+        }
+
+        /* Main Content */
+        .content-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 48px 80px;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 80px;
+        }
+
+        /* Left Column */
+        .left-column {
+            max-width: 650px;
+        }
+
+        .room-header {
+            margin-bottom: 24px;
+        }
+
+        .room-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .room-subtitle {
+            font-size: 16px;
+            color: #717171;
+        }
+
+        /* Host Card - Mini Passport */
+        .host-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 32px;
+            border: 1px solid #ddd;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fff 0%, #f9f9f9 100%);
+        }
+
+        .host-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #FF385C 0%, #E31C5F 100%);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .host-card:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+            border-color: #FF385C;
+        }
+
+        .host-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .host-avatar-container {
+            position: relative;
+        }
+
+        .host-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #FF385C;
+        }
+
+        .host-verified {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            background: #00A699;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            border: 2px solid white;
+        }
+
+        .host-info {
+            flex: 1;
+        }
+
+        .host-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF385C 0%, #E31C5F 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .host-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .host-stats {
+            font-size: 14px;
+            color: #717171;
+        }
+
+        .click-hint {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 56, 92, 0.1);
+            color: #FF385C;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            animation: pulse-hint 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-hint {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .divider {
+            height: 1px;
+            background: #ebebeb;
+            margin: 32px 0;
+        }
+
+        .section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .section-description {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #222;
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            min-width: 24px;
+        }
+
+        .feature-content h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .feature-content p {
+            font-size: 14px;
+            color: #717171;
+        }
+
+        /* Amenities */
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .amenity-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 16px;
+        }
+
+        .amenity-icon {
+            font-size: 20px;
+        }
+
+        .show-all-amenities {
+            margin-top: 24px;
+            padding: 14px 24px;
+            border: 1px solid #222;
+            background: white;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .show-all-amenities:hover {
+            background: #f7f7f7;
+        }
+
+        /* Right Column - Booking Card */
+        .booking-card {
+            position: sticky;
+            top: 100px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+            height: fit-content;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .price-period {
+            font-size: 16px;
+            color: #717171;
+        }
+
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .star-icon {
+            color: #FF385C;
+        }
+
+        .rating-text {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .reviews-link {
+            font-size: 14px;
+            color: #717171;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .date-inputs {
+            border: 1px solid #b0b0b0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .date-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 1px solid #b0b0b0;
+        }
+
+        .date-input {
+            padding: 12px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .date-input:first-child {
+            border-right: 1px solid #b0b0b0;
+        }
+
+        .date-input label {
+            display: block;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .guests-input {
+            padding: 12px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reserve-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #FF385C 0%, #E31C5F 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .reserve-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 56, 92, 0.3);
+        }
+
+        .charge-notice {
+            text-align: center;
+            font-size: 14px;
+            color: #717171;
+            margin-bottom: 24px;
+        }
+
+        .price-breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .price-row-detail {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+        }
+
+        .price-row-detail.total {
+            padding-top: 24px;
+            border-top: 1px solid #ebebeb;
+            font-weight: 600;
+        }
+
+        /* Modal for Full Profile */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            transform: scale(1.1);
+            background: #f7f7f7;
+        }
+
+        @media (max-width: 1128px) {
+            .navbar, .gallery-container, .content-container {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+
+            .content-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .booking-card {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar, .gallery-container, .content-container {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(5, 200px);
+                height: auto;
+            }
+
+            .gallery-main {
+                grid-row: auto;
+            }
+
+            .amenities-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .room-title {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">🏚 airbnb</div>
+        <div class="nav-actions">
+            <button class="nav-btn btn-share">🔗 Share</button>
+            <button class="nav-btn btn-save">❤️ Save</button>
+        </div>
+    </nav>
+
+    <!-- Image Gallery -->
+    <div class="gallery-container">
+        <div class="gallery-grid" onclick="showAllPhotos()">
+            <div class="gallery-item gallery-main">
+                <img src="https://lifestylefortress.com/wp-content/uploads/2024/01/Create-An-Amazing-Spider-Man-Themed-Bedroom-Fit-For-Adults-scaled.jpg" alt="Main room view">
+            </div>
+            <div class="gallery-item">
+                <img src="https://i5.walmartimages.com/seo/Spider-Man-Cartoon-Anime-2-Piece-3-Piece-Bedding-Sets-Comforters-Sets-Pillowcases-Set-Boys-Girls-Mens-Womens-Breathable-Durable-Microfiber-Super-Soft_8b2d5ada-fccd-40d6-9cff-4e4499d41453.b86b46c7e778f5785b81796da8dd3e3b.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF" alt="Living area">
+            </div>
+            <div class="gallery-item">
+                <img src="https://i5.walmartimages.com/asr/e7a63ddb-e5c9-4393-a82f-f16389688603.5c7c96d93ebd839936431efe2a9d3d48.jpeg" alt="Bedroom">
+            </div>
+            <div class="gallery-item">
+                <img src="https://bedsbydesignuk.com/wp-content/uploads/2024/02/DIS-SPITC_Spiderman-Table-And-Chairs-Set_RS_FE1-1024x683.jpg" alt="Kitchen">
+            </div>
+            <div class="gallery-item">
+                <img src="https://smashcutreviews.com/wp-content/uploads/2017/07/spider-man-homecoming-trailer-3-e1499868199596-1280x720.jpg" alt="Bathroom">
+                <button class="show-all-photos">📷 Show all photos</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-container">
+        <!-- Left Column -->
+        <div class="left-column">
+            <!-- Room Header -->
+            <div class="room-header">
+                <h1 class="room-title">Stunning Modern spiderman room in zagazig</h1>
+                <p class="room-subtitle">2 guests · 1 bedrooms · 1 beds · 1 baths</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Host Mini Passport (Clickable) -->
+            <div class="host-card" id="hostCard" onclick="openProfileModal()">
+                <span class="click-hint">👆 View Full Profile</span>
+                <div class="host-avatar-container">
+                    <img src="https://media.discordapp.net/attachments/774955369100214312/1437880455855870063/image.png?ex=6914da07&is=69138887&hm=b5f1366305a074e20c3ef5a3b09386e243c86bf6d6db4240dbfe2a2ebbad7fe7&=&format=webp&quality=lossless&width=865&height=940" alt="Host" class="host-avatar">
+                    <div class="host-verified">✓</div>
+                </div>
+                <div class="host-info">
+                    <span class="host-badge">🌟 Superhost</span>
+                    <h3 class="host-name">Hosted by Abdelrahamn Salah</h3>
+                    <p class="host-stats">5 years hosting · 127 reviews · 4.9 ⭐ rating</p>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Features -->
+            <div class="section">
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">🏠</div>
+                        <div class="feature-content">
+                            <h4>Entire loft</h4>
+                            <p>You'll have the room place to yourself</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✨</div>
+                        <div class="feature-content">
+                            <h4>Enhanced Clean</h4>
+                            <p>This host committed to Airbnb's 5-step enhanced cleaning process</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📍</div>
+                        <div class="feature-content">
+                            <h4>Great location</h4>
+                            <p>95% of recent guests gave the location a 5-star rating</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔑</div>
+                        <div class="feature-content">
+                            <h4>Self check-in</h4>
+                            <p>Check yourself in with the keypad</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Description -->
+            <div class="section">
+               <h2 class="section-title">About this space</h2>
+<p class="section-description">
+    Welcome to our one-of-a-kind Spider-Man–themed room in Zagazig, located in the lively Zera3a area! 🕷️  
+    This unique space is designed especially for Spider-Man fans, featuring bold red-and-blue décor, wall art inspired by your favorite hero, and fun details that make you feel like you’re in Peter Parker’s world.
+    <br><br>
+    The cozy room includes a comfortable queen-size bed with Spider-Man bedding, a themed lighting setup, and collectibles that bring the superhero vibe to life. You’ll also find a mini workspace, a TV with all your favorite Marvel movies, and free Wi-Fi for streaming or gaming.
+    <br><br>
+    Conveniently located near Zagazig University and the main streets of Zera3a, you’ll be close to cafes, shops, and local restaurants. Whether you’re here for a short stay or a weekend getaway, this room promises a fun and unforgettable experience for every Spider-Man fan! 🕸️
+</p>
+       <div class="divider"></div>
+
+        <!-- Amenities -->
+        <div class="section">
+            <h2 class="section-title">What this place offers</h2>
+            <div class="amenities-grid">
+                <div class="amenity-item">
+                    <span class="amenity-icon">🏊</span>
+                    <span>Pool</span>
+                </div>
+                <div class="amenity-item">
+                    <span class="amenity-icon">🔥</span>
+                    <span>Indoor fireplace</span>
+                </div>
+                <div class="amenity-item">
+                    <span class="amenity-icon">📺</span>
+                    <span>TV with Netflix</span>
+                </div>
+                <div class="amenity-item">
+                    <span class="amenity-icon">🍳</span>
+                    <span>Kitchen</span>
+                </div>
+                <div class="amenity-item">
+                    <span class="amenity-icon">📶</span>
+                    <span>Wifi - 500 Mbps "kefaya kazep"</span>
+                </div>
+                <div class="amenity-item">
+                    <span class="amenity-icon">🅿️</span>
+                    <span>Free parking</span>
+                </div>
+                <div class="amenity-item">
+                    <span class="amenity-icon">❄️</span>
+                    <span>Air conditioning</span>
+                </div>
+                <div class="amenity-item">
+                    <span class="amenity-icon">🧺</span>
+                    <span>Washer & Dryer</span>
+                </div>
+                <div class="amenity-item">
+                    <span class="amenity-icon">🏋️</span>
+                    <span>Gym access</span>
+                </div>
+                <div class="amenity-item">
+                    <span class="amenity-icon">🐕</span>
+                    <span>Pets allowed except spiders</span>
+                </div>
+            </div>
+            <button class="show-all-amenities" onclick="showAllAmenities()">Show all 25 amenities</button>
+        </div>
+    </div>
+
+    <!-- Right Column - Booking Card -->
+    <div class="booking-card">
+        <div class="price-row">
+            <span class="price">$189</span>
+            <span class="price-period">/ night</span>
+        </div>
+        <div class="rating-row">
+            <span class="star-icon">⭐</span>
+            <span class="rating-text">4.9</span>
+            <span class="rating-text">·</span>
+            <span class="reviews-link">127 reviews</span>
+        </div>
+
+        <div class="date-inputs">
+            <div class="date-row">
+                <div class="date-input">
+                    <label>CHECK-IN</label>
+                    <div>12/15/2024</div>
+                </div>
+                <div class="date-input">
+                    <label>CHECKOUT</label>
+                    <div>12/20/2024</div>
+                </div>
+            </div>
+            <div class="guests-input">
+                <div>
+                    <label style="font-size: 10px; font-weight: 600; text-transform: uppercase; margin-bottom: 4px; display: block;">GUESTS</label>
+                    <div>2 guests</div>
+                </div>
+                <span>▼</span>
+            </div>
+        </div>
+
+        <button class="reserve-btn" onclick="reserveRoom()">Reserve</button>
+        <p class="charge-notice">You won't be charged yet</p>
+
+        <div class="price-breakdown">
+            <div class="price-row-detail">
+                <span>$189 x 5 nights</span>
+                <span>$945</span>
+            </div>
+            <div class="price-row-detail">
+                <span>Cleaning fee</span>
+                <span>$50</span>
+            </div>
+            <div class="price-row-detail">
+                <span>Service fee</span>
+                <span>$140</span>
+            </div>
+            <div class="price-row-detail total">
+                <span>Total</span>
+                <span>$1,135</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Full Profile -->
+<div class="modal" id="profileModal">
+    <button class="modal-close" onclick="closeProfileModal()">✕</button>
+    <div id="profileContent"></div>
+</div>
+
+<script>
+    // Room data
+    const roomData = {
+        title: "Stunning Modern Loft in Downtown",
+        price: 189,
+        rating: 4.9,
+        reviews: 127,
+        location: "San Francisco, CA",
+        guests: 3,
+        bedrooms: 2,
+        beds: 3,
+        baths: 2
+    };
+
+    // Profile data (same as profile page)
+    const profileData = {
+        name: "abdelrahman salah",
+        title: "Product Designer & Creative Developer",
+        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400",
+        stats: {
+            reviews: 127,
+            yearsHosting: 5,
+            rating: 4.9,
+            projects: 89
+        },
+        bio: "Passionate designer and developer with a love for creating beautiful, user-centered experiences. I believe in the power of good design to solve complex problems and make the world a little bit better. When I'm not crafting pixels, you'll find me exploring new cities, trying exotic foods, or hiking mountain trails.",
+        info: {
+            location: "zagazig, zera3a",
+            languages: "English, Spanish, arabic",
+            memberSince: "January 2019",
+            responseTime: "Within an hour",
+            email: "abdo@email.com",
+            phone: "+1 11111111117"
+        },
+        skills: [
+            "UI/UX Design",
+            "Web Development",
+            "Figma",
+            "React",
+            "JavaScript",
+            "CSS3",
+            "Branding",
+            "Typography"
+        ]
+    };
+
+    // Open profile modal
+    function openProfileModal() {
+        const modal = document.getElementById('profileModal');
+        const content = document.getElementById('profileContent');
+        
+        // Generate full profile HTML
+        content.innerHTML = generateProfileHTML();
+        
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Initialize animations after modal opens
+        setTimeout(() => {
+            animateValue('reviewsCount', 0, profileData.stats.reviews, 1000);
+            animateValue('yearsHosting', 0, profileData.stats.yearsHosting, 1000);
+            animateValue('rating', 0, profileData.stats.rating, 1000);
+            animateValue('projectsCount', 0, profileData.stats.projects, 1000);
+        }, 100);
+    }
+
+    // Close profile modal
+    function closeProfileModal() {
+        const modal = document.getElementById('profileModal');
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Generate profile HTML
+    function generateProfileHTML() {
+        return `
+            <style>
+                .passport-container {
+                    background: #fff;
+                    border-radius: 24px;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                    max-width: 900px;
+                    width: 100%;
+                    overflow: hidden;
+                    animation: slideUp 0.4s ease-out;
+                    margin: 40px 0;
+                }
+
+                @keyframes slideUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(30px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                .passport-header {
+                    background: linear-gradient(135deg, #FF385C 0%, #E31C5F 100%);
+                    padding: 40px;
+                    color: white;
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .passport-header::before {
+                    content: '';
+                    position: absolute;
+                    top: -50%;
+                    right: -50%;
+                    width: 200%;
+                    height: 200%;
+                    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+                    animation: pulse 4s ease-in-out infinite;
+                }
+
+                @keyframes pulse {
+                    0%, 100% { transform: scale(1); }
+                    50% { transform: scale(1.1); }
+                }
+
+                .header-content {
+                    position: relative;
+                    z-index: 1;
+                    display: flex;
+                    align-items: center;
+                    gap: 30px;
+                }
+
+                .profile-image-container {
+                    position: relative;
+                }
+
+                .profile-image {
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                    border: 5px solid white;
+                    object-fit: cover;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                }
+
+                .verified-badge {
+                    position: absolute;
+                    bottom: 5px;
+                    right: 5px;
+                    background: #00A699;
+                    color: white;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: 3px solid white;
+                    font-size: 20px;
+                }
+
+                .header-info h1 {
+                    font-size: 36px;
+                    margin-bottom: 8px;
+                    font-weight: 700;
+                }
+
+                .header-info p {
+                    font-size: 18px;
+                    opacity: 0.95;
+                }
+
+                .status-tag {
+                    display: inline-block;
+                    background: rgba(255, 255, 255, 0.2);
+                    padding: 6px 16px;
+                    border-radius: 20px;
+                    font-size: 14px;
+                    margin-top: 10px;
+                    backdrop-filter: blur(10px);
+                }
+
+                .passport-body {
+                    padding: 40px;
+                }
+
+                .stats-row {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+
+                .stat-card {
+                    background: linear-gradient(135deg, #f6f9fc 0%, #e9f0f7 100%);
+                    padding: 25px;
+                    border-radius: 16px;
+                    text-align: center;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                    border: 2px solid transparent;
+                }
+
+                .stat-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+                    border-color: #FF385C;
+                }
+
+                .stat-number {
+                    font-size: 32px;
+                    font-weight: 700;
+                    color: #FF385C;
+                    margin-bottom: 5px;
+                }
+
+                .stat-label {
+                    font-size: 14px;
+                    color: #717171;
+                    font-weight: 500;
+                }
+
+                .profile-section {
+                    margin-bottom: 35px;
+                }
+
+                .section-title {
+                    font-size: 24px;
+                    font-weight: 700;
+                    color: #222;
+                    margin-bottom: 20px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+
+                .section-icon {
+                    font-size: 28px;
+                }
+
+                .info-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 20px;
+                }
+
+                .info-item {
+                    background: #f7f7f7;
+                    padding: 20px;
+                    border-radius: 12px;
+                    transition: all 0.3s ease;
+                }
+
+                .info-item:hover {
+                    background: #fff;
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                }
+
+                .info-label {
+                    font-size: 12px;
+                    color: #717171;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                }
+
+                .info-value {
+                    font-size: 16px;
+                    color: #222;
+                    font-weight: 500;
+                }
+
+                .skills-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 12px;
+                }
+
+                .skill-tag {
+                    background: linear-gradient(135deg, #FF385C 0%, #E31C5F 100%);
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 25px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                }
+
+                .skill-tag:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 5px 15px rgba(255, 56, 92, 0.3);
+                }
+
+                .bio-text {
+                    font-size: 16px;
+                    line-height: 1.8;
+                    color: #484848;
+                    background: #f7f7f7;
+                    padding: 25px;
+                    border-radius: 12px;
+                    border-left: 4px solid #FF385C;
+                }
+
+                .action-buttons {
+                    display: flex;
+                    gap: 15px;
+                    margin-top: 30px;
+                    flex-wrap: wrap;
+                }
+
+                .btn {
+                    padding: 14px 30px;
+                    border-radius: 8px;
+                    border: none;
+                    font-size: 16px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    flex: 1;
+                    min-width: 150px;
+                }
+
+                .btn-primary {
+                    background: linear-gradient(135deg, #FF385C 0%, #E31C5F 100%);
+                    color: white;
+                }
+
+                .btn-primary:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 10px 25px rgba(255, 56, 92, 0.3);
+                }
+
+                .btn-secondary {
+                    background: white;
+                    color: #FF385C;
+                    border: 2px solid #FF385C;
+                }
+
+                .btn-secondary:hover {
+                    background: #FF385C;
+                    color: white;
+                }
+
+                @media (max-width: 768px) {
+                    .header-content {
+                        flex-direction: column;
+                        text-align: center;
+                    }
+
+                    .header-info h1 {
+                        font-size: 28px;
+                    }
+
+                    .passport-body {
+                        padding: 25px;
+                    }
+
+                    .action-buttons {
+                        flex-direction: column;
+                    }
+                }
+            </style>
+
+            <div class="passport-container">
+                <!-- Header Section -->
+                <div class="passport-header">
+                    <div class="header-content">
+                        <div class="profile-image-container">
+                            <img src="${profileData.image}" alt="Profile" class="profile-image">
+                            <div class="verified-badge">✓</div>
+                        </div>
+                        <div class="header-info">
+                            <h1>${profileData.name}</h1>
+                            <p>${profileData.title}</p>
+                            <span class="status-tag">🌟 Superhost</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Body Section -->
+                <div class="passport-body">
+                    <!-- Stats Row -->
+                    <div class="stats-row">
+                        <div class="stat-card">
+                            <div class="stat-number" id="reviewsCount">0</div>
+                            <div class="stat-label">Reviews</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="yearsHosting">0</div>
+                            <div class="stat-label">Years Hosting</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="rating">0</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="projectsCount">0</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                    </div>
+
+                    <!-- About Section -->
+                    <div class="profile-section">
+                        <h2 class="section-title">
+                            <span class="section-icon">👋</span>
+                            About Me
+                        </h2>
+                        <div class="bio-text">${profileData.bio}</div>
+                    </div>
+
+                    <!-- Personal Information -->
+                    <div class="profile-section">
+                        <h2 class="section-title">
+                            <span class="section-icon">📋</span>
+                            Profile Information
+                        </h2>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Location</div>
+                                <div class="info-value">${profileData.info.location}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Languages</div>
+                                <div class="info-value">${profileData.info.languages}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Member Since</div>
+                                <div class="info-value">${profileData.info.memberSince}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Response Time</div>
+                                <div class="info-value">${profileData.info.responseTime}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Email</div>
+                                <div class="info-value">${profileData.info.email}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Phone</div>
+                                <div class="info-value">${profileData.info.phone}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Skills Section -->
+                    <div class="profile-section">
+                        <h2 class="section-title">
+                            <span class="section-icon">⚡</span>
+                            Skills & Expertise
+                        </h2>
+                        <div class="skills-container">
+                            ${profileData.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="sendMessage()">💌 Send Message</button>
+                        <button class="btn btn-secondary" onclick="shareProfile()">🔗 Share Profile</button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Animation for counting numbers
+    function animateValue(id, start, end, duration) {
+        const obj = document.getElementById(id);
+        if (!obj) return;
+        
+        const range = end - start;
+        const increment = range / (duration / 16);
+        let current = start;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                current = end;
+                clearInterval(timer);
+            }
+            obj.textContent = Math.floor(current * 10) / 10;
+        }, 16);
+    }
+
+    // Interactive functions
+    function sendMessage() {
+        alert('Opening message dialog...\n\nIn a real application, this would open a messaging interface with Sarah!');
+    }
+
+    function shareProfile() {
+        alert('Profile link copied to clipboard!\n\nShare Sarah\'s profile with others.');
+    }
+
+    function showAllPhotos() {
+        alert('📷 Opening photo gallery...\n\nIn a real application, this would show all room photos in a lightbox gallery!');
+    }
+
+    function showAllAmenities() {
+        alert('✨ Showing all ');}
+            function reserveRoom() {
+        alert('🎉 Proceeding to reservation...\n\nYou would be redirected to the booking confirmation page!');
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('profileModal')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeProfileModal();
+        }
+    });
+
+    // Add hover effect to host card
+    const hostCard = document.getElementById('hostCard');
+    if (hostCard) {
+        hostCard.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-4px)';
+        });
+        
+        hostCard.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    }
+
+    // Smooth scroll behavior
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add smooth animations when elements come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section, .feature-item, .amenity-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeProfileModal();
+        }
+    });
+</script>
